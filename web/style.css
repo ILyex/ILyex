@@ -1,0 +1,29 @@
+* { box-sizing: border-box; font-family: "Inter", "Segoe UI", Arial, sans-serif; }
+body { margin: 0; background: #eaf0f7; color: #17324d; }
+.app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+.sidebar { background: linear-gradient(180deg, #1f9dd9, #1279ad); color: #fff; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+.logo { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+.sidebar a { background: rgba(255,255,255,.15); padding: 11px; border-radius: 8px; }
+.sidebar a.active { background: rgba(7,44,70,.4); }
+main { padding: 14px; }
+header { background: #fff; border: 1px solid #d5e3f2; border-radius: 10px; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+header input { width: 350px; padding: 9px; border-radius: 8px; border: 1px solid #c3d8ec; }
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+.card { border-radius: 12px; padding: 12px; color: #fff; background: linear-gradient(135deg, #1f9dd9, #0f6d9d); box-shadow: 0 8px 18px rgba(31,157,217,.25); }
+.panel { margin-top: 12px; background: #fff; border: 1px solid #d5e3f2; border-radius: 12px; padding: 12px; }
+.drop-zone { border: 2px dashed #74b7e4; background: #f3faff; border-radius: 10px; padding: 14px; text-align: center; margin-bottom: 8px; }
+.drop-zone.active { border-color: #1f9dd9; background: #e0f2ff; }
+.toolbar { display: grid; gap: 8px; grid-template-columns: 2fr 1fr repeat(3, auto); }
+button { border: 0; border-radius: 8px; padding: 10px 12px; background: #1f9dd9; color: #fff; cursor: pointer; }
+button:hover { background: #157fb6; }
+.subtools { display: flex; gap: 16px; margin-top: 8px; font-size: 14px; color: #335f84; }
+.progress { margin-top: 8px; width: 100%; height: 8px; border-radius: 999px; background: #e2eef8; overflow: hidden; }
+#progressBar { width: 0%; height: 100%; background: linear-gradient(90deg, #1f9dd9, #0f6d9d); transition: width .15s ease; }
+textarea { width: 100%; min-height: 115px; margin-top: 8px; border: 1px solid #c8ddef; border-radius: 8px; padding: 8px; }
+.hint { color: #2d5e86; margin: 8px 0 0; }
+.grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+canvas { width: 100%; background: #fbfdff; border: 1px solid #e4eef7; border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; }
+th,td { border: 1px solid #d8e5f1; padding: 7px; font-size: 13px; }
+th { background: #eaf6ff; color: #0d4f76; }
+.pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 10px; }
