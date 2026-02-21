@@ -7,6 +7,8 @@ import csv
 import datetime as dt
 import io
 import json
+import threading
+import webbrowser
 import xml.etree.ElementTree as ET
 import zipfile
 from dataclasses import dataclass
@@ -291,6 +293,18 @@ class Handler(BaseHTTPRequestHandler):
         self.send_error(HTTPStatus.NOT_FOUND)
 
 
+def start_server(host: str, port: int) -> None:
+    ThreadingHTTPServer((host, port), Handler).serve_forever()
+
+
+def run_desktop(host: str, port: int) -> None:
+    url = f"http://{host}:{port}" if host != "0.0.0.0" else f"http://127.0.0.1:{port}"
+    thread = threading.Thread(target=start_server, args=(host, port), daemon=True)
+    thread.start()
+    webbrowser.open(url)
+    thread.join()
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Importation Releve Compteur Universelle")
     p.add_argument("--input", type=Path)
@@ -298,7 +312,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--format", choices=["csv", "json", "xlsx", "exl"])
     p.add_argument("--mapping", type=Path)
     p.add_argument("--source-name", default="unknown")
-    p.add_argument("--serve", action="store_true")
+    p.add_argument("--serve", action="store_true", help="Run web server")
+    p.add_argument("--desktop", action="store_true", help="Open dashboard automatically (for .exe)")
     p.add_argument("--host", default="0.0.0.0")
     p.add_argument("--port", type=int, default=5000)
     return p
@@ -306,8 +321,11 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> None:
     args = build_parser().parse_args()
+    if args.desktop:
+        run_desktop(args.host, args.port)
+        return
     if args.serve:
-        ThreadingHTTPServer((args.host, args.port), Handler).serve_forever()
+        start_server(args.host, args.port)
         return
     if not all([args.input, args.output, args.format, args.mapping]):
         raise SystemExit("CLI requires --input --output --format --mapping")

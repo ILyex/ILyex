@@ -1,7 +1,12 @@
 import json
 from pathlib import Path
 
-from importation_releve_compteur_universelle import _rows_from_xlsx_bytes, _write_xlsx_bytes, run
+from importation_releve_compteur_universelle import (
+    _rows_from_xlsx_bytes,
+    _write_xlsx_bytes,
+    build_parser,
+    run,
+)
 
 
 def test_run_csv_to_universal(tmp_path: Path) -> None:
@@ -49,3 +54,9 @@ def test_xlsx_roundtrip() -> None:
     rows = list(_rows_from_xlsx_bytes(content))
     assert rows[0]["meter_id"] == "M-9"
     assert rows[0]["source_system"] == "SYS_X"
+
+
+def test_parser_desktop_flag() -> None:
+    args = build_parser().parse_args(["--desktop", "--port", "5050"])
+    assert args.desktop is True
+    assert args.port == 5050
