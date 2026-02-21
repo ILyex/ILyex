@@ -1,32 +1,44 @@
 # Importation Relevé Compteur Universelle
 
-تم تطوير البرنامج بواجهة Dashboard قريبة من الشكل المطلوب مع دعم:
-- استيراد: CSV / JSON / XLSX / EXL
-- تصدير: CSV / XLSX
-- توحيد القراءات في مخطط عالمي
+نسخة نهائية لتشغيل برنامج **Importation Relevé Compteur Universelle** على ويندوز كملف تنفيذي `.exe`.
 
-## تشغيل البرنامج (نسخة Python)
+## للمستخدم النهائي (Windows)
+بعد بناء البرنامج ستحصل على:
+- `ImportationReleveCompteurUniverselle.exe`
+
+تشغيله يكون مباشرة بالنقر المزدوج، وسيفتح الواجهة تلقائياً في المتصفح على:
+- `http://127.0.0.1:5000`
+
+> لا تحتاج تشغيل ملفات Python أو التعامل مع ملفات برمجية.
+
+## الميزات
+- استيراد: `CSV / JSON / XLSX / EXL`
+- تصدير: `CSV / XLSX`
+- واجهة Dashboard
+- Mapping قابل للتعديل
+- تحقق من صحة البيانات قبل التطبيع
+
+## بناء EXE محلياً (على Windows)
+```bat
+build_windows_exe.bat
+```
+الناتج:
+- `dist\ImportationReleveCompteurUniverselle.exe`
+
+## بناء EXE عبر GitHub Actions
+تم إضافة Workflow جاهز:
+- `.github/workflows/build-windows-exe.yml`
+
+بعد تشغيله (workflow_dispatch) حمّل Artifact:
+- `ImportationReleveCompteurUniverselle-exe`
+
+## تشغيل يدوي (للمطور)
+### وضع الواجهة
 ```bash
 python3 importation_releve_compteur_universelle.py --desktop --host 127.0.0.1 --port 5000
 ```
 
-## إنشاء ملف `.exe` لويندوز
-### خيار 1: محلياً على Windows
-شغّل الملف:
-```bat
-build_windows_exe.bat
-```
-الناتج سيكون:
-- `dist\ImportationReleveCompteurUniverselle.exe`
-
-### خيار 2: عبر GitHub Actions
-يوجد Workflow جاهز:
-- `.github/workflows/build-windows-exe.yml`
-
-بعد تشغيله، حمّل Artifact باسم:
-- `ImportationReleveCompteurUniverselle-exe`
-
-## تشغيل CLI
+### وضع CLI
 ```bash
 python3 importation_releve_compteur_universelle.py \
   --input examples/readings.csv \
@@ -36,7 +48,7 @@ python3 importation_releve_compteur_universelle.py \
   --source-name ERP_GLOBAL
 ```
 
-## اختبار
+## الاختبارات
 ```bash
 python3 -m pytest -q
 ```

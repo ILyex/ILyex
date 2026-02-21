@@ -1,15 +1,96 @@
 let rows = [];
-const cols = ['meter_id','customer_id','reading_value','reading_date','unit','source_system'];
-function render(){
-  const tbody=document.querySelector('#resultsTable tbody');tbody.innerHTML='';
-  rows.forEach(r=>{const tr=document.createElement('tr');cols.forEach(c=>{const td=document.createElement('td');td.textContent=r[c]||'';tr.appendChild(td)});tbody.appendChild(tr)});
-  totalCount.textContent=rows.length;clientCount.textContent=new Set(rows.map(r=>r.customer_id)).size;
+const COLUMNS = ["meter_id", "customer_id", "reading_value", "reading_date", "unit", "source_system"];
+
+function renderTable() {
+  const tbody = document.querySelector("#resultsTable tbody");
+  tbody.innerHTML = "";
+
+  for (const row of rows) {
+    const tr = document.createElement("tr");
+    for (const column of COLUMNS) {
+      const td = document.createElement("td");
+      td.textContent = row[column] ?? "";
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+
+  document.getElementById("totalCount").textContent = String(rows.length);
+  const clients = new Set(rows.map((r) => r.customer_id));
+  document.getElementById("clientCount").textContent = String(clients.size);
 }
-async function toBase64(file){const buf=await file.arrayBuffer();let bin='';new Uint8Array(buf).forEach(b=>bin+=String.fromCharCode(b));return btoa(bin)}
-importBtn.onclick=async()=>{const f=fileInput.files[0];if(!f)return alert('اختر ملف');
-  let mapping={};try{mapping=JSON.parse(mappingInput.value||'{}')}catch(e){return alert('Mapping JSON غير صحيح')}
-  const res=await fetch('/api/import',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:f.name,content_base64:await toBase64(f),mapping,source_name:sourceName.value})});
-  const data=await res.json(); if(!res.ok) return alert(data.error||'error'); rows=data.rows; render();
-};
-async function exportData(format){if(!rows.length)return alert('لا بيانات'); const res=await fetch('/api/export',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({rows,format})});const data=await res.json();const a=document.createElement('a');a.href='data:application/octet-stream;base64,'+data.content_base64;a.download=data.filename;a.click();}
-exportCsvBtn.onclick=()=>exportData('csv');exportXlsxBtn.onclick=()=>exportData('xlsx');
+
+async function fileToBase64(file) {
+  const buffer = await file.arrayBuffer();
+  let binary = "";
+  for (const byte of new Uint8Array(buffer)) {
+    binary += String.fromCharCode(byte);
+  }
+  return btoa(binary);
+}
+
+async function importData() {
+  const file = document.getElementById("fileInput").files[0];
+  if (!file) {
+    alert("اختر ملف أولاً");
+    return;
+  }
+
+  let mapping;
+  try {
+    mapping = JSON.parse(document.getElementById("mappingInput").value || "{}");
+  } catch {
+    alert("صيغة JSON في Mapping غير صحيحة");
+    return;
+  }
+
+  const payload = {
+    filename: file.name,
+    content_base64: await fileToBase64(file),
+    mapping,
+    source_name: document.getElementById("sourceName").value || "unknown",
+  };
+
+  const response = await fetch("/api/import", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    alert(data.error || "فشل الاستيراد");
+    return;
+  }
+
+  rows = data.rows || [];
+  renderTable();
+}
+
+async function exportData(format) {
+  if (!rows.length) {
+    alert("لا توجد بيانات للتصدير");
+    return;
+  }
+
+  const response = await fetch("/api/export", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ rows, format }),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    alert(data.error || "فشل التصدير");
+    return;
+  }
+
+  const link = document.createElement("a");
+  link.href = `data:application/octet-stream;base64,${data.content_base64}`;
+  link.download = data.filename;
+  link.click();
+}
+
+document.getElementById("importBtn").addEventListener("click", importData);
+document.getElementById("exportCsvBtn").addEventListener("click", () => exportData("csv"));
+document.getElementById("exportXlsxBtn").addEventListener("click", () => exportData("xlsx"));
