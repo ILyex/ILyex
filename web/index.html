@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Importation relevé compteur universelle</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="logo">Importation relevé</div>
+        <a class="active">Relevé de compteur</a>
+        <a>Facturation</a>
+        <a>Analyse</a>
+        <a>Comptabilité</a>
+      </aside>
+
+      <main>
+        <header>
+          <input id="searchInput" type="text" placeholder="Recherche intelligente..." />
+          <strong>Dashboard analytique</strong>
+        </header>
+
+        <section class="cards">
+          <article class="card"><h2 id="totalCount">0</h2><p>Total relevés</p></article>
+          <article class="card"><h2 id="clientCount">0</h2><p>Clients uniques</p></article>
+          <article class="card"><h2 id="avgValue">0.000</h2><p>Moyenne</p></article>
+          <article class="card"><h2 id="lastDate">-</h2><p>Dernière date</p></article>
+        </section>
+
+        <section class="panel">
+          <h3>Import / Export intelligent</h3>
+          <div class="drop-zone" id="dropZone">Glissez-déposez votre fichier ici (CSV/TSV/TXT/JSON/XLSX/EXL)</div>
+          <div class="toolbar">
+            <input id="fileInput" type="file" accept=".csv,.tsv,.txt,.json,.xlsx,.exl" />
+            <input id="sourceName" value="ERP_GLOBAL" />
+            <button id="importBtn">Importer</button>
+            <button id="exportCsvBtn">Exporter CSV</button>
+            <button id="exportXlsxBtn">Exporter XLSX</button>
+          </div>
+          <div class="subtools">
+            <label><input id="autoMapping" type="checkbox" checked /> Auto-mapping intelligent</label>
+            <label><input id="exportFiltered" type="checkbox" checked /> Exporter uniquement les données filtrées</label>
+          </div>
+          <div class="progress"><div id="progressBar"></div></div>
+          <textarea id="mappingInput">__DEFAULT_MAPPING__</textarea>
+          <p class="hint" id="statusText">Prêt à importer.</p>
+        </section>
+
+        <section class="grid-2">
+          <section class="panel">
+            <h3>Évolution des relevés</h3>
+            <canvas id="lineChart" width="800" height="220"></canvas>
+          </section>
+          <section class="panel">
+            <h3>Répartition par unité</h3>
+            <canvas id="donutChart" width="400" height="220"></canvas>
+          </section>
+        </section>
+
+        <section class="panel">
+          <h3>Relevés normalisés</h3>
+          <table id="resultsTable">
+            <thead>
+              <tr>
+                <th>ID Compteur</th>
+                <th>ID Client</th>
+                <th>Valeur</th>
+                <th>Date</th>
+                <th>Unité</th>
+                <th>Système source</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div class="pagination">
+            <button id="prevPageBtn">◀</button>
+            <span id="pageInfo">Page 1/1</span>
+            <button id="nextPageBtn">▶</button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>
