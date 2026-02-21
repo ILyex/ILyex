@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Importation relevé compteur universelle</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="logo">Importation relevé...</div>
+        <a class="active">Relevé de compteur</a>
+        <a>Facturation</a>
+        <a>Analyse</a>
+        <a>Comptabilité</a>
+      </aside>
+
+      <main>
+        <header>
+          <input type="text" placeholder="Rechercher..." />
+          <strong>واجهة استيراد عالمية</strong>
+        </header>
+
+        <section class="cards">
+          <div>
+            <h2 id="totalCount">0</h2>
+            <p>إجمالي القراءات</p>
+          </div>
+          <div>
+            <h2 id="clientCount">0</h2>
+            <p>عدد العملاء</p>
+          </div>
+          <div>
+            <h2>XLSX / EXL</h2>
+            <p>استيراد وتصدير</p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>استيراد / تصدير الملفات</h3>
+          <div class="toolbar">
+            <input id="fileInput" type="file" accept=".csv,.json,.xlsx,.exl" />
+            <input id="sourceName" value="ERP_GLOBAL" />
+            <button id="importBtn">استيراد</button>
+            <button id="exportCsvBtn">تصدير CSV</button>
+            <button id="exportXlsxBtn">تصدير EXL/XLSX</button>
+          </div>
+          <textarea id="mappingInput">__DEFAULT_MAPPING__</textarea>
+        </section>
+
+        <section class="panel">
+          <table id="resultsTable">
+            <thead>
+              <tr>
+                <th>meter_id</th>
+                <th>customer_id</th>
+                <th>reading_value</th>
+                <th>reading_date</th>
+                <th>unit</th>
+                <th>source_system</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

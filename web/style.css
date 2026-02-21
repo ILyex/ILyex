@@ -1,0 +1,93 @@
+* {
+  box-sizing: border-box;
+  font-family: Segoe UI, Tahoma, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #ececec;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: #1f9dd9;
+  color: #fff;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar a {
+  background: #2ca6df;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.sidebar a.active {
+  background: #f4e66a;
+  color: #333;
+}
+
+main {
+  padding: 12px;
+}
+
+header {
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+header input {
+  width: 260px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cards > div,
+.panel {
+  background: #fff;
+  border: 1px solid #d8d8d8;
+  padding: 10px;
+}
+
+.panel {
+  margin-top: 10px;
+}
+
+.toolbar {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1.8fr 1fr repeat(3, auto);
+}
+
+textarea {
+  width: 100%;
+  height: 110px;
+  margin-top: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 6px;
+  font-size: 12px;
+}
