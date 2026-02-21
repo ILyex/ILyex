@@ -1,0 +1,9 @@
+{
+  "meter_id": "Compteur",
+  "customer_id": "Client",
+  "reading_value": "Valeur",
+  "reading_date": "Date",
+  "unit": "Unite",
+  "source_system": "Systeme",
+  "date_format": "%d/%m/%Y"
+}
